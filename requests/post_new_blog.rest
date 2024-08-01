@@ -3,8 +3,8 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "la bala que doblo la esquina",
-    "author": "Elon Muserterk",
-    "url":"htttp:/sdfdsf",
-    "likes":1
+    "title": "qwe wqqwr werewr",
+    "author": "pprqw cucamona",
+    "url":"htttp:/pqwerwerqwer",
+    "likes":2
 }

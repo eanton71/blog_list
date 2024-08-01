@@ -1,10 +1,10 @@
-PUT http://localhost:3001/api/blogs/66a623c45ba3f79fce2c62fd HTTP/1.1
+PUT http://localhost:3003/api/blogs/66aaa538edf8bbbef7636a68 HTTP/1.1
 content-type: application/json
 
 {
         "title": "la bala que doblo la esquina",
     "author": "Elon Muserterk",
-    "url":"htttp:/sdfdsf",
+    "url":"htttp:/werewsdfdsf",
     "likes":1
 }
 ###
