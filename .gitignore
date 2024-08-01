@@ -10,9 +10,9 @@ lerna-debug.log*
 coleccion
 currency
 node_modules 
+.env
 dist-ssr
 *.local
-.env
 
 # Editor directories and files
 .vscode/*
