@@ -9,7 +9,7 @@ const favoriteBlog = (blogs) => {
     return blogs.find(blog => blog.likes === maxLikes)
 }
 
-function mostBlogs(blogs) {
+const  mostBlogs = (blogs) => {
     const contador = blogs.reduce((acumulado, blog) => {
         const author = blog.author;
         if (!acumulado[author]) {
@@ -29,6 +29,29 @@ function mostBlogs(blogs) {
 
     return mostBlogs;
 }
+
+function mostLikes(blogs) {
+    const authors = blogs.reduce((acc, blog) => {
+        const author = blog.author;
+        if (!acc[author]) {
+            acc[author] = 0;
+        }
+        acc[author] += blog.likes;
+        return acc;
+    }, {});
+
+    const maxLikes = Math.max(...Object.values(authors));
+    const favoriteAuthor = Object.keys(authors).find(author => authors[author] === maxLikes);
+
+    return {
+        author: favoriteAuthor,
+        likes: maxLikes
+    };
+}
 module.exports = {
-    dummy,totalLikes,favoriteBlog,mostBlogs
+    dummy,
+    totalLikes,
+    favoriteBlog,
+    mostBlogs,
+    mostLikes
 }
