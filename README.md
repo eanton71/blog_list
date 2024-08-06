@@ -1,6 +1,10 @@
 # Curso FullstackOpen
 Universidad de Helsinki
 
+-
+- Instalar [express-async-errors](https://github.com/davidbanham/express-async-errors) para evitar el suo de try catch
+  - `npm install express-async-errors`
+  - En `app.js` incluir antes e las rutas `require('express-async-errors')`
 
 ### 4.8: Pruebas de Lista de Blogs, paso 1
 - Usar `superTest`para escribir una prueba  que realice una solicitud HTTP GET a la URL /api/blogs
@@ -30,3 +34,8 @@ Universidad de Helsinki
 ### 4.9 : Pruebas de Lista de Blogs, paso 2
 - Prueba que verifique que la propiedad de identificador único de las publicaciones del blog se llame id, (de manera predeterminada, la base de datos nombra la propiedad _id).
 - Modificar el   método toJSON  que se encuentra en `/models/blog.js` 
+### 4.10:  Pruebas de Lista de Blogs, paso 3
+- test para creacion de nuevo blog HTTTP POST
+  - verificar que el numero de blogs se incrementa en uno
+  - verificar que el contenido del blog se ah gaurdaod corerectamete en la BD
+- 
