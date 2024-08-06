@@ -76,7 +76,7 @@ describe('favorite Blog', () => {
         "likes": 12,
         "id": "66abbfb7e3a0b5586e73d05f"
 }
-    test('when list has only one blog, equals the likes of that', () => {
+    test('EX. 4.5. when list has only one blog, equals the likes of that', () => {
         const result = listHelper.favoriteBlog(listWithOneBlog)
         assert.deepStrictEqual(result, maxBlog)
     })

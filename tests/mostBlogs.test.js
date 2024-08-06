@@ -73,7 +73,7 @@ describe('most Blogs', () => {
         "author": "Robert C. Martin",
         "blogs": 3
     }
-    test('when list has only one blog, equals the likes of that', () => {
+    test('EX. 4.6. when list has only one blog, equals the likes of that', () => {
         const result = listHelper.mostBlogs(listWithOneBlog)
         assert.deepStrictEqual(result, mostBlogs)
     })
