@@ -62,7 +62,25 @@ describe('POST Blog list', () => {
         const titles = blogsAtEnd.map(n => n.title)
         assert(titles.includes('Test Blog'))
     })
+    test('EX 4.11. likes is missing => likes : 0  ', async () => {
+        const newBlog = {
+            title: 'Test Blog',
+            author: 'Test Author',
+            url: 'http://test.com' 
+        }
 
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const blog = blogsAtEnd.find(blog => blog.title === 'Test Blog')
+
+        assert.strictEqual(blog.likes, 0)
+    })
 })
 after(async () => {
     await mongoose.connection.close()
