@@ -41,3 +41,12 @@ Universidad de Helsinki
 ### 4.11*: Pruebas de Lista de Blogs, paso 4
 - Verificar  que si la propiedad likes falta en la solicitud, tendrá el valor 0 por defecto. 
 - Hacer los cambios en la funcion POST
+### 4.12: Pruebas de Lista de Blogs, paso 5
+- Verificar , si faltan title o url retornar 400 bad request
+- Hacer los cambios en la fucion POST
+### 4.13 Expansiones de la Lista de Blogs, paso 1
+- Implementar ELimiar un solo recurso de blog con async/await
+- Impleamtar pruebas
+### 4.14 Expansiones de Listas de Blogs, paso 2
+- Implementar la actualización de un solo recurso de blog con async/await
+- Implemenra pruebas
