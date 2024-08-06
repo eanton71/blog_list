@@ -3,6 +3,8 @@ const Blog = require('../models/blog')
 
 blogsRouter.get('/',async  (request, response) => {
     const blogs = await Blog.find({}) 
+    const blog_ids = blogs.map(blog => blog._id)
+    console.log(blog_ids)
     response.json(blogs)
     
 })

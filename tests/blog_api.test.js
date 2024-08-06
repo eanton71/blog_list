@@ -31,11 +31,19 @@ describe('GET Blog list', () => {
     })
     test('EX.4.8. all blogs are returned', async () => {
         const response = await api.get('/api/blogs')
-
+        console.log(response.body)
 
         assert.strictEqual(response.body.length, helper.initialBlogs.length)
     })
+    test('EX.4.9. the unique identifier of blog posts is called id', async () => {
+        const response = await api.get('/api/blogs')
+        const blog = response.body[0]
+
+        assert.strictEqual(Object.keys(blog).includes('id'), true)
+        assert.strictEqual(Object.keys(blog).includes('_id'), false)
+    })
 })
+
 after(async () => {
     await mongoose.connection.close()
 })

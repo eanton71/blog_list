@@ -15,7 +15,7 @@ Universidad de Helsinki
     - En Windows es necesario `cross-env`. En otros sistemas SSOO se puede omitir `?`
       - En modo depednencia de desarrollo `npm install --save-dev cross-env`
       - por si acaso da problemas `npm install cross-env`
-    - Modificar el archivo `.env`para añadir una conexion a una base de datos para test. Cambiar el nombre de la BD en la cadena de conexion `test_blog_list`
+    - Modificar el archivo `.env`para añadir una conexion a una base de datos para test. Cambiar el nombre de la BD en la cadena de conexion `test_blog_list`. Añadir la conexion a una variable `TEST_MONGODB_URI`
     - Modificar `/utils/config.js` para que tenga en cuenta el modo para coger una variable u otra :  
         ````js
         const MONGODB_URI = process.env.NODE_ENV === 'test'
@@ -24,9 +24,9 @@ Universidad de Helsinki
             
         ````
    - Crear un archivo `/test/test_helper.js` para inicializar BD (refactorizado)
-- Verificar el numero  correcto de publicaciones en JSON
+- Verificar el numero  correcto de publicaciones
+- Verificar que estan en JSON
 - Refactorizar `GET /api/blogs` para usar `async/await`
 ### 4.9 : Pruebas de Lista de Blogs, paso 2
 - Prueba que verifique que la propiedad de identificador único de las publicaciones del blog se llame id, (de manera predeterminada, la base de datos nombra la propiedad _id).
-- Modificar el   método toJSON  que se encuentra en `/models/blog.js`
-- 
+- Modificar el   método toJSON  que se encuentra en `/models/blog.js` 
