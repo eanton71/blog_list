@@ -10,13 +10,13 @@ const api = supertest(app)
 //Inicializar base de datos de blog para test
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
- 
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObjects = helper.initialBlogs
         .map(blog => new Blog(blog))
     const promiseArray = blogObjects.map(blog => blog.save())
-    await Promise.all(promiseArray) 
+    await Promise.all(promiseArray)
 })
 //Fin inicilizar BD test
 
@@ -45,7 +45,7 @@ describe('POST Blog list', () => {
             title: 'Test Blog',
             author: 'Test Author',
             url: 'http://test.com',
-            likes:0      
+            likes: 0
         }
 
         await api
@@ -66,7 +66,7 @@ describe('POST Blog list', () => {
         const newBlog = {
             title: 'Test Blog',
             author: 'Test Author',
-            url: 'http://test.com' 
+            url: 'http://test.com'
         }
 
         await api
@@ -80,6 +80,41 @@ describe('POST Blog list', () => {
         const blog = blogsAtEnd.find(blog => blog.title === 'Test Blog')
 
         assert.strictEqual(blog.likes, 0)
+    })
+    test('EX 4.12. title is missing -> 400 bad request  ', async () => {
+        const newBlog = {
+            author: 'Test Author',
+            url: 'http://test.com'
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const blog = blogsAtEnd.find(blog => blog.title === 'Test Blog')
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+    })
+
+    test('EX 4.12. url is missing -> 400 bad request  ', async () => {
+        const newBlog = {
+            title: 'Test Blog',
+            author: 'Test Author'
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
     })
 })
 after(async () => {

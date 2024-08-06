@@ -19,3 +19,13 @@ content-type: application/json
     "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     "likes": 2
 }
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    
+    "author": "Robert C. Martin",
+    "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    "likes": 2
+}

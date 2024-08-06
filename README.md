@@ -38,4 +38,6 @@ Universidad de Helsinki
 - test para creacion de nuevo blog HTTTP POST
   - verificar que el numero de blogs se incrementa en uno
   - verificar que el contenido del blog se ah gaurdaod corerectamete en la BD
-- 
+### 4.11*: Pruebas de Lista de Blogs, paso 4
+- Verificar  que si la propiedad likes falta en la solicitud, tendrá el valor 0 por defecto. 
+- Hacer los cambios en la funcion POST
