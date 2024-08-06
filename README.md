@@ -10,8 +10,8 @@ Universidad de Helsinki
 - Definir un entorno de prueba con una base de datos separada para `test`
   -  Modificar `package.json`, scripts:
      -  `"start": "cross-env NODE_ENV=production node index.js"`
-    - `"dev": "cross-env NODE_ENV=development nodemon index.js"`
-    - `"test": "cross-env NODE_ENV=test node --test"`
+       - `"dev": "cross-env NODE_ENV=development nodemon index.js"`
+       - `"test": "cross-env NODE_ENV=test node --test"`
     - En Windows es necesario `cross-env`. En otros sistemas SSOO se puede omitir `?`
       - En modo depednencia de desarrollo `npm install --save-dev cross-env`
       - por si acaso da problemas `npm install cross-env`

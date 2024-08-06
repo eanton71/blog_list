@@ -29,6 +29,12 @@ describe('GET Blog list', () => {
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
+    test('EX.4.8. all blogs are returned', async () => {
+        const response = await api.get('/api/blogs')
+
+
+        assert.strictEqual(response.body.length, helper.initialBlogs.length)
+    })
 })
 after(async () => {
     await mongoose.connection.close()
