@@ -144,6 +144,46 @@ describe('DELETE Blog ', () => {
         assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
     })
 })
+describe('EX 4.14 Update blog', () => {
+    test('Update likes', async () => {
+        const blogs = await helper.blogsInDb()
+        const update = blogs[0]
+        //update.likes = 10
+/*
+        const update = {
+            title: blogs[0].title,
+            author: blogs[0].author,
+            url:blogs[0].url,
+            likes: 10
+        }*/        
+        await api
+            .put(`/api/blogs/${update.id}`)
+            .send({ ...update, likes: 10 })
+            .expect(200);
+
+        const updatedBlog = await helper.blogsInDb()
+        const blog = updatedBlog.find(blog => blog.id === blogs[0].id) 
+        assert.strictEqual(blog.likes, 10)
+    });
+    test('Update  blog not exists', async () => {
+        const update = {
+            title: "title",
+            author: "author",
+            url: "url",
+            likes: 10
+        }
+        await api
+            .put('/api/blogs/66a7b7a607716d0009d3c249')
+            .send(update)
+            .expect(404);
+    });
+    test('Update blog   incorrect id', async () => {
+           await api
+            .put('/api/blogs/1234567890')
+            .send({ likes: 10 })
+         .expect(400);    
+    });
+});
 after(async () => {
     await mongoose.connection.close()
 })

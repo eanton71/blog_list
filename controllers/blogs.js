@@ -41,23 +41,27 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 })
 /**
- * TODO repasar que es lo que hay que actualiar
+ * Updates a blog post
  */
-blogsRouter.put('/:id', (request, response, next) => {
-    const body = request.body
+blogsRouter.put('/:id', async (request, response) => {
+    const { title, author, url, likes } = request.body
 
-    const blog = new Blog({
-        title: body.title,
-        author: body.author || false,
-        url: body.url,
-        likes: body.likes || 0
-    })
+    // Validate request body
+    if (!title || !author || !url) {
+        return response.status(400).json({ error: 'title, author, and url are required' })
+    }
+    const blog = {
+        title,
+        author,
+        url,
+        likes: likes || 0
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
 
-    Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-        .then(updatedBlog => {
-            response.json(updatedBlog)
-        })
-        .catch(error => next(error))
+    if (!updatedBlog) {
+        return response.status(404).json({ error: 'blog not found' })
+    }
+    response.json(updatedBlog)
+
 })
-
 module.exports = blogsRouter
