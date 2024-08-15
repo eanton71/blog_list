@@ -3,8 +3,7 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "qwe wqqwr werewr",
-    "author": "pprqw cucamona",
+    "title": "un blog", 
     "url":"htttp:/pqwerwerqwer",
     "likes":2
 }
@@ -14,8 +13,7 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-   "title": "Type wars",
-    "author": "Robert C. Martin",
+   "title": "Type wars", 
     "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
     "likes": 2
 }

@@ -12,8 +12,8 @@ PUT http://localhost:3003/api/blogs/66a623c2 3f79fce2c62fd HTTP/1.1
 content-type: application/json
 
 {
-       "title": "la bala que doblo la esquina",
-    "author": "Elon Muserterk",
+    "title": "la bala que doblo la esquina",
+    "author": "66bdef4221e74b1569f8c00f",
     "url":"htttp:/sdfdsf",
     "likes":1
 }
@@ -22,7 +22,7 @@ PUT http://localhost:3003/api/blogs/66a7b7a607716d0009d3c249 HTTP/1.1
 content-type: application/json
 
 {
-        "title": "la bala que doblo la esquina",
+    "title": "la bala que doblo la esquina",
     "author": "Elon Muserterk",
     "url":"htttp:/sdfdsf",
     "likes":1

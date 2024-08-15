@@ -83,22 +83,29 @@ Además, implementa pruebas que verifiquen que no se creen usuarios no válidos 
 NB si decides definir pruebas en múltiples archivos, debes notar que por defecto cada archivo de prueba se ejecuta en su propio proceso (ver Modelo de ejecución de pruebas en la documentación). La consecuencia de esto es que diferentes archivos de prueba se ejecutan al mismo tiempo. Dado que las pruebas comparten la misma base de datos, la ejecución simultánea puede causar problemas, que pueden evitarse ejecutando las pruebas con la opción --test-concurrency=1, es decir, definiéndolas para que se ejecuten secuencialmente.
 
 ### 4.17: Expansión de la Lista de Blogs, paso 5
-Expande los blogs para que cada blog contenga información sobre el creador del blog.
+- Cada blog debe contenr inforamcion sobre el creador de ese blog
+- Al crear el blog `POST /api/blogs`, se debe añadir su creador
+  - Importar el modelo de `User` en el controlador de blogs
+  - buscar un usuario y usar su id
+  - 
+  - Test en REST Client de VSCode
+    - crear un suaurio para obtener su id
+    - crearun blog con el id
 
-Modifica la adición de nuevos blogs para que cuando se cree un nuevo blog, cualquier usuario de la base de datos sea designado como su creador (por ejemplo, el que se encontró primero). Implementa esto de acuerdo con el capítulo de la parte 4 populate. El usuario designado como creador no importa todavía. La funcionalidad se termina en el ejercicio 4.19.
 
-Modifica la lista de todos los blogs para que la información de usuario del creador se muestre con el blog:
-
-api/blogs con información de usuario en formato JSON
-y la lista de todos los usuarios también muestra los blogs creados por cada usuario:
-
-api/users con información de blogs en formato JSON
+- Modificar funcion del controlador `GET /api/blogs` que nos retorna la lista de blogs
+  - Debe mostrar la ingformacion completa del usuario en cada blog
+  - usar la funcion populate
 ### 4.18: Expansión de la Lista de Blogs, paso 6
 Implementar la autenticación basada en token según la parte 4 Autenticación basada en token.
 
 ### 4.19: Expansión de la Lista de Blogs, paso 7
 Modifica la adición de nuevos blogs para que solo sea posible si se envía un token válido con la solicitud HTTP POST. El usuario identificado por el token se designa como el creador del blog.
 
+  - Imporatr en el mismo archivo la libreria para `jwt`
+  - En la funcion para la ruta POST obtener el token y decodifcarlo con jwt
+  - buscar el usuario por el id del tokken decodificado
+  - Añadir en el middleware el codigo de estado 401 para `JsonWebTokenError`
 ### 4.20*: Expansión de la Lista de Blogs, paso 8
 Este ejemplo de la parte 4 muestra cómo tomar el token del encabezado con la función auxiliar getTokenFrom.
 

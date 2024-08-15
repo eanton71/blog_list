@@ -181,7 +181,7 @@ describe('EX 4.14 Update blog', () => {
     });
 });
 
-describe.only('EX 4.15. inicializacion db usuarios', () => {
+describe('EX 4.15. inicializacion db usuarios', () => {
     beforeEach(async () => {
         await User.deleteMany({})
 
@@ -191,7 +191,7 @@ describe.only('EX 4.15. inicializacion db usuarios', () => {
         await user.save()
     })
 
-    test.only('creacion de nuevo usuario con nuevo username', async () => {
+    test('creacion de nuevo usuario con nuevo username', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -216,8 +216,8 @@ describe.only('EX 4.15. inicializacion db usuarios', () => {
 
   
 })
-describe.only('EX 4.16. users , errores', () => {
-    test.only('username existe, retorna codigo de estado 400', async () => {
+describe('EX 4.16. users , errores', () => {
+    test('username existe, retorna codigo de estado 400', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -237,7 +237,7 @@ describe.only('EX 4.16. users , errores', () => {
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     }) 
-    test.only('username menor 3 caracteres, retorna 400 status code', async () => {
+    test('username menor 3 caracteres, retorna 400 status code', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -257,7 +257,7 @@ describe.only('EX 4.16. users , errores', () => {
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     })
-    test.only('password menor 3 caracteres, retorna 400 status code', async () => {
+    test('password menor 3 caracteres, retorna 400 status code', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -277,6 +277,43 @@ describe.only('EX 4.16. users , errores', () => {
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     })
+})
+describe.only('EX 4.17. users , populate', () => {
+    beforeEach(async () => {
+        await User.deleteMany({})
+        await Blog.deleteMany({})
+        const passwordHash = await bcrypt.hash('sekret', 10)
+        const user = new User({ username: 'root',name:"superuser", passwordHash })
+
+        await user.save()
+    })
+     
+    test.only('create blog, add to author', async () => {
+        const users = await helper.usersInDb()
+        let initialBlogs = []
+        const newBlog = {
+            title: 'Test Blog',
+            author: users[0]._id,
+            url: 'http://test.com',
+            likes: 0
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const users_add_blog = await helper.usersInDb()
+        console.log(users_add_blog[0].blogs.includes())
+        assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
+
+        const titles = blogsAtEnd.map(n => n.title)
+        assert(titles.includes('Test Blog'))
+ 
+    })     
 })
 after(async () => {
     await mongoose.connection.close()
