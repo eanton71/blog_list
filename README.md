@@ -72,7 +72,7 @@ Universidad de Helsinki
 ````
  
 ### 4.16*: Expansión de la Lista de Blogs, paso 4
-Agrega una funcionalidad que agregue las siguientes restricciones para la creación de nuevos usuarios: Deben proporcionarse tanto el username como password y ambos deben tener al menos 3 caracteres. El username debe ser único.
+- Agregar restricciones para la creación de   usuarios:   username y  password requeridos  y con  al menos 3 caracteres. El username debe ser único.
 
 La operación debe responder con un código de estado adecuado y algún tipo de mensaje de error si se crea un usuario no válido.
 

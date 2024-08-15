@@ -181,7 +181,7 @@ describe('EX 4.14 Update blog', () => {
     });
 });
 
-describe.only('EX 4.15. when there is initially one user in db', () => {
+describe.only('EX 4.15. inicializacion db usuarios', () => {
     beforeEach(async () => {
         await User.deleteMany({})
 
@@ -191,7 +191,7 @@ describe.only('EX 4.15. when there is initially one user in db', () => {
         await user.save()
     })
 
-    test.only('creation succeeds with a fresh username', async () => {
+    test.only('creacion de nuevo usuario con nuevo username', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -212,11 +212,12 @@ describe.only('EX 4.15. when there is initially one user in db', () => {
         const usernames = usersAtEnd.map(u => u.username)
         assert(usernames.includes(newUser.username))
     })
-})
-describe.only('EX 4.15. when there is initially one user in db', () => {
-    // ...
+ 
 
-    test.only('creation fails with proper statuscode and message if username already taken', async () => {
+  
+})
+describe.only('EX 4.16. users , errores', () => {
+    test.only('username existe, retorna codigo de estado 400', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {
@@ -233,6 +234,46 @@ describe.only('EX 4.15. when there is initially one user in db', () => {
 
         const usersAtEnd = await helper.usersInDb()
         assert(result.body.error.includes('expected `username` to be unique'))
+
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    }) 
+    test.only('username menor 3 caracteres, retorna 400 status code', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const newUser = {
+            username: 'ro',
+            name: 'Superuser',
+            password: 'salainen',
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        assert(result.body.error.includes('Username is required and must be at least 3 characters'))
+
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+    })
+    test.only('password menor 3 caracteres, retorna 400 status code', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const newUser = {
+            username: 'otromas',
+            name: 'Superuser',
+            password: 'sa',
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const usersAtEnd = await helper.usersInDb()
+        assert(result.body.error.includes('Password is required and must be at least 3 characters'))
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     })
