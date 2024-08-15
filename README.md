@@ -74,13 +74,12 @@ Universidad de Helsinki
 ### 4.16*: Expansión de la Lista de Blogs, paso 4
 - Agregar restricciones para la creación de   usuarios:   username y  password requeridos  y con  al menos 3 caracteres. El username debe ser único.
 
-La operación debe responder con un código de estado adecuado y algún tipo de mensaje de error si se crea un usuario no válido.
+- Agreagar la validadion en el controladro de ruta `/controllers/users`
+  - piude se rrsolo para el passowrod y las demas en el esquema para user  
 
-NB No pruebes las restricciones de password con las validaciones de Mongoose. No es una buena idea porque la password recibida por el backend y el hash de password guardado en la base de datos no son lo mismo. La longitud de la contraseña debe validarse en el controlador como hicimos en la parte 3 antes de usar la validación de Mongoose.
+- imprelemantr pruebas para suaurios no validos : username o apassword menosr de 3 caracrteres o no existentes
 
-Además, implementa pruebas que verifiquen que no se creen usuarios no válidos y que una operación de agregar usuario que sea no válida devuelva un código de estado adecuado y un mensaje de error.
-
-NB si decides definir pruebas en múltiples archivos, debes notar que por defecto cada archivo de prueba se ejecuta en su propio proceso (ver Modelo de ejecución de pruebas en la documentación). La consecuencia de esto es que diferentes archivos de prueba se ejecutan al mismo tiempo. Dado que las pruebas comparten la misma base de datos, la ejecución simultánea puede causar problemas, que pueden evitarse ejecutando las pruebas con la opción --test-concurrency=1, es decir, definiéndolas para que se ejecuten secuencialmente.
+Cuando  las pruebas comparten la misma base de datos, la ejecución simultánea puede causar problemas, que pueden evitarse ejecutando las pruebas con la opción --test-concurrency=1 (para que se ejecuten secuencialmente).
 
 ### 4.17: Expansión de la Lista de Blogs, paso 5
 - Cada blog debe contenr inforamcion sobre el creador de ese blog
@@ -97,7 +96,9 @@ NB si decides definir pruebas en múltiples archivos, debes notar que por defect
   - Debe mostrar la ingformacion completa del usuario en cada blog
   - usar la funcion populate
 ### 4.18: Expansión de la Lista de Blogs, paso 6
-Implementar la autenticación basada en token según la parte 4 Autenticación basada en token.
+- Implementar la autenticación basada en token 
+  - Crear ruta para login `POST /api/login` en `/controllers/login.js`
+  - En arrchivo `.env`hay que añadir una variable SECRET
 
 ### 4.19: Expansión de la Lista de Blogs, paso 7
 Modifica la adición de nuevos blogs para que solo sea posible si se envía un token válido con la solicitud HTTP POST. El usuario identificado por el token se designa como el creador del blog.
