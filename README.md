@@ -101,7 +101,7 @@ Cuando  las pruebas comparten la misma base de datos, la ejecución simultánea 
   - En arrchivo `.env`hay que añadir una variable SECRET
 
 ### 4.19: Expansión de la Lista de Blogs, paso 7
-Modifica la adición de nuevos blogs para que solo sea posible si se envía un token válido con la solicitud HTTP POST. El usuario identificado por el token se designa como el creador del blog.
+- En la  solicitud HTTP POST para crear blogs comprobar que el token sea valido. El usuario identificado por el token se designa como el creador del blog.
 
   - Imporatr en el mismo archivo la libreria para `jwt`
   - En la funcion para la ruta POST obtener el token y decodifcarlo con jwt
