@@ -144,9 +144,7 @@ el campo blog.user no contiene una cadena, sino un objeto. Entonces, si deseas c
 
 if ( blog.user.toString() === userid.toString() ) ...copy
 ### 4.22*: Expansión de la Lista de Blogs, paso 10
-Tanto la creación de un nuevo blog como su eliminación necesitan averiguar la identidad del usuario que está realizando la operación. El middleware tokenExtractor que hicimos en el ejercicio 4.20 ayuda, pero los controladores de las operaciones post y delete necesitan averiguar quién es el usuario que posee un token específico.
-
-Ahora cree un nuevo middleware userExtractor, que encuentre al usuario y lo guarde en el objeto de solicitud. Cuando registras el middleware en app.js
+- Crear  middleware userExtractor, que encuentre al usuario y lo guarde en el objeto de solicitud. Cuando registras el middleware en app.js
 
 app.use(middleware.userExtractor)copy
 el usuario se guardara en el campo request.user:
@@ -191,6 +189,7 @@ router.post('/', middleware.userExtractor, async (request, response) => {
   // ...
 }copy
 ### 4.23*: Expansión de la Lista de Blogs, paso 11
-Después de agregar la autenticación basada en token, las pruebas para agregar un nuevo blog se rompieron. Arréglalas. También escribe una nueva prueba para asegurarte de que la adición de un blog falla con el código de estado adecuado 401 Unauthorized si no se proporciona un token.
+- Hacer pruebas para agregar un nuevo blog con autenticación basada en tokense rompieron. Arréglalas.
+-  También si falla cuando no se añade token con el código de estado adecuado 401 Unauthorized  
 
-Esto probablemente sea útil al hacer la corrección.
+ https://github.com/visionmedia/supertest/issues/398
