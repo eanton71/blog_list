@@ -13,7 +13,7 @@ const Blog = require('../models/blog')
 
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-/*
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObjects = helper.initialBlogs
@@ -21,7 +21,7 @@ beforeEach(async () => {
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
 })
-    */
+    
 //Fin inicilizar BD test
 
 
@@ -53,17 +53,39 @@ describe('GET Blog list', () => {
         assert.deepStrictEqual(resultBlog.body, blogToView)
     })
 })
-describe('POST Blog list', () => {
-    test('EX 4.10. a valid blog can be added ', async () => {
+describe.only('POST Blog list', () => {
+    beforeEach(async () => {
+        await User.deleteMany({})
+
+        const passwordHash = await bcrypt.hash('password', 10)
+        const user = new User({ username: 'testuser', name: 'testuser', passwordHash })
+//console.log(user)
+        await user.save()
+    })
+    test.only('EX 4.23. a valid blog can be added, token ', async () => {
+
+        const author = {
+            'username': 'testuser',
+            'password': 'password'
+        }
+        const response = await api
+            .post('/api/login')
+            .send(author)
+            .expect(200)
+            .expect('Content-Type', /application\/json/) 
+        
+        
+       // console.log(response._body.token)
         const newBlog = {
             title: 'Test Blog',
-            author: 'Test Author',
+            author: author._id,
             url: 'http://test.com',
             likes: 0
         }
 
         await api
             .post('/api/blogs')
+            .set("Authorization", `Bearer ${response.body.token}`) 
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -76,6 +98,43 @@ describe('POST Blog list', () => {
         const titles = blogsAtEnd.map(n => n.title)
         assert(titles.includes('Test Blog'))
     })
+    test.only('EX 4.23. a valid blog can be added, NOT token  ', async () => {
+
+        const author = {
+            'username': 'testuser',
+            'password': 'password'
+        }
+        const response = await api
+            .post('/api/login')
+            .send(author)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+
+        // console.log(response._body.token)
+        const newBlog = {
+            title: 'Test Blog',
+            author: author._id,
+            url: 'http://test.com',
+            likes: 0
+        }
+
+        await api
+            .post('/api/blogs')
+            //.set("Authorization", `Bearer ${response.body.token}`)
+            .send(newBlog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+
+
+        //const blogsAtEnd = await helper.blogsInDb()
+        //assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+
+       // const titles = blogsAtEnd.map(n => n.title)
+       // assert(titles.includes('Test Blog'))
+    })
+
     test('EX 4.11. likes is missing => likes : 0  ', async () => {
         const newBlog = {
             title: 'Test Blog',
@@ -158,7 +217,7 @@ describe('EX 4.14 Update blog', () => {
             .expect(200);
 
         const updatedBlog = await helper.blogsInDb()
-        const blog = updatedBlog.find(blog => blog.id === blogs[0].id) 
+        const blog = updatedBlog.find(blog => blog.id === blogs[0].id)
         assert.strictEqual(blog.likes, 10)
     });
     test('Update  blog not exists', async () => {
@@ -174,10 +233,10 @@ describe('EX 4.14 Update blog', () => {
             .expect(404);
     });
     test('Update blog   incorrect id', async () => {
-           await api
+        await api
             .put('/api/blogs/1234567890')
             .send({ likes: 10 })
-         .expect(400);    
+            .expect(400);
     });
 });
 
@@ -212,9 +271,9 @@ describe('EX 4.15. inicializacion db usuarios', () => {
         const usernames = usersAtEnd.map(u => u.username)
         assert(usernames.includes(newUser.username))
     })
- 
 
-  
+
+
 })
 describe('EX 4.16. users , errores', () => {
     test('username existe, retorna codigo de estado 400', async () => {
@@ -236,7 +295,7 @@ describe('EX 4.16. users , errores', () => {
         assert(result.body.error.includes('expected `username` to be unique'))
 
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-    }) 
+    })
     test('username menor 3 caracteres, retorna 400 status code', async () => {
         const usersAtStart = await helper.usersInDb()
 
@@ -278,17 +337,17 @@ describe('EX 4.16. users , errores', () => {
         assert.strictEqual(usersAtEnd.length, usersAtStart.length)
     })
 })
-describe.only('EX 4.17. users , populate', () => {
+describe('EX 4.17. users , populate', () => {
     beforeEach(async () => {
         await User.deleteMany({})
         await Blog.deleteMany({})
         const passwordHash = await bcrypt.hash('sekret', 10)
-        const user = new User({ username: 'root',name:"superuser", passwordHash })
+        const user = new User({ username: 'root', name: "superuser", passwordHash })
 
         await user.save()
     })
-     
-    test.only('create blog, add to author', async () => {
+
+    test('create blog, add to author', async () => {
         const users = await helper.usersInDb()
         let initialBlogs = []
         const newBlog = {
@@ -312,8 +371,8 @@ describe.only('EX 4.17. users , populate', () => {
 
         const titles = blogsAtEnd.map(n => n.title)
         assert(titles.includes('Test Blog'))
- 
-    })     
+
+    })
 })
 after(async () => {
     await mongoose.connection.close()

@@ -1,7 +1,7 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-const initialBlogs = [
+const initialBlogs0 = [
     {
         "title": "la bala que doblo la esquina",
         "author": "Elon Muserterk",
@@ -56,6 +56,9 @@ const initialBlogs = [
         "url": "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
         "likes": 2 
     }
+]
+const initialBlogs = [
+    
 ]
 /*
 const nonExistingId = async () => {

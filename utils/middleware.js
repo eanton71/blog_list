@@ -15,7 +15,7 @@ const unknownEndpoint = (request, response) => {
 }
 const tokenExtractor = (request, response, next) => {
     const authorization = request.get('authorization')
-    console.log(authorization)
+   // console.log(authorization)
     if (authorization && authorization.startsWith('Bearer ')) {
         request.token=  authorization.replace('Bearer ', '')
     }
@@ -26,7 +26,7 @@ const userExtractor = async (request, response, next) => {
 
     //descifrar el token enviado
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
+    //console.log(' middlseware.userextractor ', decodedToken)
     //si no tiene id es invalido
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
