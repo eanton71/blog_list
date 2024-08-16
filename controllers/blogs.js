@@ -1,7 +1,11 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+
+//QUITAR ?
+//const User = require('../models/user')
+//const jwt = require('jsonwebtoken')
+
+
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
     .populate('author', { username: 1, name: 1 })
@@ -21,6 +25,8 @@ blogsRouter.get('/:id', async (request, response) => {
  
 blogsRouter.post('/', async (request, response) => {
     const body = request.body 
+
+    /*
     //descifrar el token enviado
     const decodedToken = jwt.verify(request.token, process.env.SECRET) 
     
@@ -31,7 +37,8 @@ blogsRouter.post('/', async (request, response) => {
 
     //buscar el usuario por el id del token
     const user = await User.findById(decodedToken.id)     
-        
+        */
+    const user = request.user
     if (body.title && body.url) {
         const blog = new Blog({
             title: body.title,
@@ -51,7 +58,7 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-    
+    /*
     //descifrar el token enviado (el usuarioi debe estar logeado)
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     //si no tiene id es invalido
@@ -60,6 +67,8 @@ blogsRouter.delete('/:id', async (request, response) => {
     }
     //buscar el usuario por el id del token
     const user = await User.findById(decodedToken.id)
+    */
+    const user = request.user
     const blog = await Blog.findById(request.params.id)
     if (!blog) return response.status(400).json({ error: 'Blog not exists' })
     if (blog.author.toString() !== user._id.toString()) {
@@ -68,7 +77,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     // Remove blog
     await blog.deleteOne()
 
-    
+
     //el  blog de la lista blogs de user se ha borrado ?
     //console.log(user.blogs[0].toString())
     //console.log('PID ', request.params.id)
