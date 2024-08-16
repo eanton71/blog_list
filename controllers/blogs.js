@@ -18,32 +18,23 @@ blogsRouter.get('/:id', async (request, response) => {
         response.status(404).end()
     }
 })
-/*
-const getTokenFrom = request => {
-    const authorization = request.get('authorization')
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '')
-    }
-    return null
-}*/
+ 
 blogsRouter.post('/', async (request, response) => {
-    const body = request.body
-    const token = request.token
-   // console.log(token)
-    const decodedToken = jwt.verify(token, process.env.SECRET)
-    //const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    const body = request.body 
+    //descifrar el token enviado
+    const decodedToken = jwt.verify(request.token, process.env.SECRET) 
     
-    
+    //si no tiene id es invalido
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
-    const user = await User.findById(decodedToken.id)
-     
+
+    //buscar el usuario por el id del token
+    const user = await User.findById(decodedToken.id)     
         
     if (body.title && body.url) {
         const blog = new Blog({
             title: body.title,
-            //author: body.author || false,
             author: user._id,
             url: body.url,
             likes: body.likes || 0
@@ -60,7 +51,38 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-    await Blog.findByIdAndDelete(request.params.id)
+    
+    //descifrar el token enviado (el usuarioi debe estar logeado)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    //si no tiene id es invalido
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' })
+    }
+    //buscar el usuario por el id del token
+    const user = await User.findById(decodedToken.id)
+    const blog = await Blog.findById(request.params.id)
+    if (!blog) return response.status(400).json({ error: 'Blog not exists' })
+    if (blog.author.toString() !== user._id.toString()) {
+        return response.status(401).json({ error: 'Unauthorized user for delete blog' })
+    }
+    // Remove blog
+    await blog.deleteOne()
+
+    
+    //el  blog de la lista blogs de user se ha borrado ?
+    //console.log(user.blogs[0].toString())
+    //console.log('PID ', request.params.id)
+    //console.log('userBLOGS ', user)
+    let blogs = user.blogs.filter(b => b)
+    //console.log('BLOGS ', blogs)
+   
+   
+    blogs = blogs.filter((b) =>  b.toString()!== request.params.id)  
+    user.blogs = blogs
+    await user.save() 
+    //user.blogs = user.blogs.map(b => console.log(b))
+
+    
     response.status(204).end()
 
 })

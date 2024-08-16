@@ -133,7 +133,7 @@ const tokenExtractor = (request, response, next) => {
 }
 ````
 ### 4.21*: Expansión de la Lista de Blogs, paso 9
-Cambia la operación de eliminar blogs para que el blog solo pueda ser eliminado por el usuario que lo agregó. Por lo tanto, eliminar un blog solo es posible si el token enviado con la solicitud es el mismo que el del creador del blog.
+ - Modificar  la ruta eliminar blogs para que el blog solo pueda ser eliminado por el usuario que lo agregó: el token enviado con la solicitud es el mismo que el del creador del blog.
 
 Si se intenta eliminar un blog sin un token o por un usuario incorrecto, la operación debe devolver un código de estado adecuado.
 
