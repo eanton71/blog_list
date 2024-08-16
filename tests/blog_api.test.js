@@ -307,7 +307,7 @@ describe.only('EX 4.17. users , populate', () => {
 
         const blogsAtEnd = await helper.blogsInDb()
         const users_add_blog = await helper.usersInDb()
-        console.log(users_add_blog[0].blogs.includes())
+        //console.log(users_add_blog[0].blogs.includes())
         assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
 
         const titles = blogsAtEnd.map(n => n.title)

@@ -108,27 +108,30 @@ Cuando  las pruebas comparten la misma base de datos, la ejecución simultánea 
   - buscar el usuario por el id del tokken decodificado
   - Añadir en el middleware el codigo de estado 401 para `JsonWebTokenError`
 ### 4.20*: Expansión de la Lista de Blogs, paso 8
-Este ejemplo de la parte 4 muestra cómo tomar el token del encabezado con la función auxiliar getTokenFrom.
-
-Si usaste la misma solución, refactoriza para llevar el token a un middleware. El middleware debe tomar el token del encabezado Authorization y debe asignarlo al campo token del objeto request.
-
-En otras palabras, si registras este middleware en el archivo app.js antes de todas las rutas
-
-app.use(middleware.tokenExtractor)copy
-Las rutas pueden acceder al token con request.token:
-
+- Extraer el token desde una funcion middleware
+- Refactorizar la funcion getTokenFrom y llevarla al archivo middleware.js
+- Aqui se guarda el resultado en request.toekn
+- Es recogido por la funcionm POST /api/blogs para guardar blogs, que necesita comprobar el token
+- El  middleware debe estar en en el archivo app.js antes de   las rutas
+````js
+app.use(middleware.tokenExtractor)
+````
+- Desde los controladores de ruta se accede al token asi:
+````js
 blogsRouter.post('/', async (request, response) => {
   // ..
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
   // ..
-})copy
-Recuerda que una función middleware es una función con tres parámetros, que al final llama al último parámetro next para mover el control al siguiente middleware:
-
+})
+````
+- La funcion middleware tiene esta estructura: 
+````js
 const tokenExtractor = (request, response, next) => {
   // código que extrae el token
 
   next()
-}copy
+}
+````
 ### 4.21*: Expansión de la Lista de Blogs, paso 9
 Cambia la operación de eliminar blogs para que el blog solo pueda ser eliminado por el usuario que lo agregó. Por lo tanto, eliminar un blog solo es posible si el token enviado con la solicitud es el mismo que el del creador del blog.
 
